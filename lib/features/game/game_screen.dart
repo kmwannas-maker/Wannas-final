@@ -231,12 +231,6 @@ class _GameScreenState extends ConsumerState<GameScreen>
                           style: appFont(isArabic: isArabic, fontSize: 13,
                               fontWeight: FontWeight.w700, color: _accent),
                         ),
-                        const SizedBox(height: 2),
-                        Text(
-                          '${gameState.currentIndex + 1} / ${gameState.totalCards}',
-                          style: appFont(isArabic: false, fontSize: 12,
-                              color: Colors.white38),
-                        ),
                       ]),
                     ),
                     // Flame streak — only shown when ≥ 3
