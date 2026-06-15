@@ -71,7 +71,11 @@ class ActivitiesNotifier extends StateNotifier<ActivitiesState> {
     }
   }
 
-  void setLocalActivities(List<Activity> list) {`r`n    state = state.copyWith(activities: AsyncValue.data(list));`r`n  }`r`n`r`n  void setLocalActivities(List<Activity> list) {\r\n    state = state.copyWith(activities: AsyncValue.data(list));\r\n  }\r\n\r\n  Future<void> regenerate() => generate(state.location);
+  void setLocalActivities(List<Activity> list) {
+    state = state.copyWith(activities: AsyncValue.data(list));
+  }
+
+  Future<void> regenerate() => generate(state.location);
 }
 
 final activitiesProvider =
@@ -165,13 +169,10 @@ class HeartNotifier extends StateNotifier<HeartState> {
 
   Future<void> skip() => nextCard();
 
-  void reset() =>
-      state = const HeartState();
+  void reset() => state = const HeartState();
 }
 
 final heartProvider =
     StateNotifierProvider<HeartNotifier, HeartState>(
   (ref) => HeartNotifier(ref.read(claudeServiceProvider)),
 );
-
-
