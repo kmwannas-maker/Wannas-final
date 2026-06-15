@@ -19,7 +19,7 @@ class S {
   String get spiceModeTagline =>
       isArabic ? 'أشعلوا الجذوة من جديد' : 'Reignite the spark';
 
-  String get familyMode => isArabic ? 'وقت العائلة' : 'Family Time';
+  String get familyMode => isArabic ? 'وقت العائلة' : 'Family Heart to Heart';
   String get familyModeTagline =>
       isArabic ? 'لحظات حقيقية مع من تحب' : 'Real moments with those you love';
 
@@ -129,7 +129,7 @@ class S {
   String get paywallFeature2 =>
       isArabic ? 'وضع "أضف التوابل" بالكامل' : 'Full access to Spice It Up';
   String get paywallFeature3 =>
-      isArabic ? 'جميع الفئات العمرية لوقت العائلة' : 'All Family Time age groups';
+      isArabic ? 'جميع الفئات العمرية لوقت العائلة' : 'All Family Heart to Heart age groups';
 
   // Settings
   String get settings       => isArabic ? 'الإعدادات'              : 'Settings';
