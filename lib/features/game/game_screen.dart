@@ -138,7 +138,7 @@ class _GameScreenState extends ConsumerState<GameScreen>
     final gameState = ref.watch(gameStateProvider);
 
     if (gameState == null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => context.go('/'));
+      WidgetsBinding.instance.addPostFrameCallback((_) => context.go('/vibe'));
       return const Scaffold(backgroundColor: _bg);
     }
 
@@ -183,7 +183,7 @@ class _GameScreenState extends ConsumerState<GameScreen>
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop) { ref.read(gameStateProvider.notifier).reset(); context.go('/'); }
+        if (!didPop) { ref.read(gameStateProvider.notifier).reset(); context.go('/vibe'); }
       },
       child: Scaffold(
         backgroundColor: _bg,
@@ -212,7 +212,7 @@ class _GameScreenState extends ConsumerState<GameScreen>
                     GestureDetector(
                       onTap: () {
                         ref.read(gameStateProvider.notifier).reset();
-                        context.go('/');
+                        context.go('/vibe');
                       },
                       child: Container(
                         width: 40, height: 40,
@@ -596,7 +596,7 @@ class _GameScreenState extends ConsumerState<GameScreen>
                               isArabic: isArabic,
                               onTap: () {
                                 ref.read(gameStateProvider.notifier).reset();
-                                context.go('/');
+                                context.go('/vibe');
                               })
                           : Row(children: [
                               // Go Deeper — reveals a follow-up prompt
