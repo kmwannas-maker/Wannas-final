@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -37,7 +37,6 @@ class FriendsIntroScreen extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Icon
               Container(
                 width: 80,
                 height: 80,
@@ -46,12 +45,10 @@ class FriendsIntroScreen extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: const Center(
-                  child: Text('ðŸ‘«', style: TextStyle(fontSize: 40)),
+                  child: Text('👫', style: TextStyle(fontSize: 40)),
                 ),
               ),
               const SizedBox(height: 28),
-
-              // Title
               Text(
                 s.friendsIntroTitle,
                 textAlign: TextAlign.center,
@@ -64,8 +61,6 @@ class FriendsIntroScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 12),
-
-              // Subtitle
               Text(
                 s.friendsIntroSub,
                 textAlign: TextAlign.center,
@@ -77,8 +72,6 @@ class FriendsIntroScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 48),
-
-              // CTA button
               GestureDetector(
                 onTap: () => context.push('/friends/categories'),
                 child: Container(
@@ -114,4 +107,3 @@ class FriendsIntroScreen extends ConsumerWidget {
     );
   }
 }
-
