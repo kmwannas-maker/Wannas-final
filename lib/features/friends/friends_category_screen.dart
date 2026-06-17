@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/providers/language_provider.dart';
+import '../../core/providers/dark_mode_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 
@@ -25,14 +26,14 @@ class FriendsCategoryScreen extends ConsumerWidget {
     final textSecondary = isDark ? const Color(0xFF9CA3AF) : AppColors.textSecondary;
 
     final categories = [
-      _Category(emoji: '⚽', title: s.catFootball, available: true,  mode: 'sport'),
-      _Category(emoji: '📺', title: s.catTV,       available: true,  mode: 'tv'),
-      _Category(emoji: '💄', title: s.catBeauty,   available: true,  mode: 'beauty'),
-      _Category(emoji: '🎵', title: s.catMusic,    available: true,  mode: 'music'),
-      _Category(emoji: '🎮', title: s.catGaming,   available: true,  mode: 'gaming'),
-      _Category(emoji: '🧠', title: s.catWYR,      available: true,  mode: 'wyr'),
-      _Category(emoji: '✈️', title: s.catTravel,   available: true,  mode: 'travel'),
-      _Category(emoji: '🍕', title: s.catFood,     available: true,  mode: 'food'),
+      _Category(emoji: 'âš½', title: s.catFootball, available: true,  mode: 'sport'),
+      _Category(emoji: 'ðŸ“º', title: s.catTV,       available: true,  mode: 'tv'),
+      _Category(emoji: 'ðŸ’„', title: s.catBeauty,   available: true,  mode: 'beauty'),
+      _Category(emoji: 'ðŸŽµ', title: s.catMusic,    available: true,  mode: 'music'),
+      _Category(emoji: 'ðŸŽ®', title: s.catGaming,   available: true,  mode: 'gaming'),
+      _Category(emoji: 'ðŸ§ ', title: s.catWYR,      available: true,  mode: 'wyr'),
+      _Category(emoji: 'âœˆï¸', title: s.catTravel,   available: true,  mode: 'travel'),
+      _Category(emoji: 'ðŸ•', title: s.catFood,     available: true,  mode: 'food'),
     ];
 
     return Scaffold(
@@ -212,7 +213,7 @@ class FriendsCategoryScreen extends ConsumerWidget {
                 child: GestureDetector(
                   onTap: () => context.go('/'),
                   child: Text(
-                    isArabic ? 'تغيير الوضع' : 'Switch mode',
+                    isArabic ? 'ØªØºÙŠÙŠØ± Ø§Ù„ÙˆØ¶Ø¹' : 'Switch mode',
                     style: appFont(
                       isArabic: isArabic,
                       fontSize: 14,
@@ -242,3 +243,4 @@ class _Category {
     required this.mode,
   });
 }
+

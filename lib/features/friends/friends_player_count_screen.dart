@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/providers/language_provider.dart';
+import '../../core/providers/dark_mode_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import 'friends_category_screen.dart';
@@ -140,7 +141,7 @@ class _FriendsPlayerCountScreenState
               ),
               const SizedBox(height: 56),
 
-              // Next button → initialise names/scores then go to settings
+              // Next button â†’ initialise names/scores then go to settings
               GestureDetector(
                 onTap: () {
                   final names = List.generate(
@@ -166,7 +167,7 @@ class _FriendsPlayerCountScreenState
                     ],
                   ),
                   child: Text(
-                    isArabic ? 'التالي →' : 'Next →',
+                    isArabic ? 'Ø§Ù„ØªØ§Ù„ÙŠ â†’' : 'Next â†’',
                     textAlign: TextAlign.center,
                     style: appFont(
                       isArabic: isArabic,
@@ -225,3 +226,4 @@ class _CounterBtn extends StatelessWidget {
     );
   }
 }
+

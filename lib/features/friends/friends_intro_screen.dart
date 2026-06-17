@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/providers/language_provider.dart';
+import '../../core/providers/dark_mode_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 
@@ -45,7 +46,7 @@ class FriendsIntroScreen extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: const Center(
-                  child: Text('👫', style: TextStyle(fontSize: 40)),
+                  child: Text('ðŸ‘«', style: TextStyle(fontSize: 40)),
                 ),
               ),
               const SizedBox(height: 28),
@@ -113,3 +114,4 @@ class FriendsIntroScreen extends ConsumerWidget {
     );
   }
 }
+

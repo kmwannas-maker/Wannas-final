@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/providers/language_provider.dart';
+import '../../core/providers/dark_mode_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/providers/friends_providers.dart';
@@ -72,7 +73,7 @@ class FriendsGameSettingsScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 32),
 
-              // ── DIFFICULTY ────────────────────────────────────────────────
+              // â”€â”€ DIFFICULTY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Text(
                 s.difficultyLabel,
                 style: appFont(
@@ -138,7 +139,7 @@ class FriendsGameSettingsScreen extends ConsumerWidget {
                 );
               }),
 
-              // ── TIMER PER QUESTION (hidden when hard — timer is fixed 10 s) ──
+              // â”€â”€ TIMER PER QUESTION (hidden when hard â€” timer is fixed 10 s) â”€â”€
               if (difficulty != 'hard') ...[
                 const SizedBox(height: 20),
                 Text(
@@ -200,7 +201,7 @@ class FriendsGameSettingsScreen extends ConsumerWidget {
 
               const Spacer(),
 
-              // Next →
+              // Next â†’
               GestureDetector(
                 onTap: () => context.push('/friends/names'),
                 child: Container(
@@ -218,7 +219,7 @@ class FriendsGameSettingsScreen extends ConsumerWidget {
                     ],
                   ),
                   child: Text(
-                    isArabic ? 'التالي →' : 'Next →',
+                    isArabic ? 'Ø§Ù„ØªØ§Ù„ÙŠ â†’' : 'Next â†’',
                     textAlign: TextAlign.center,
                     style: appFont(
                       isArabic: isArabic,
@@ -237,3 +238,4 @@ class FriendsGameSettingsScreen extends ConsumerWidget {
     );
   }
 }
+
