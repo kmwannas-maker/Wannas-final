@@ -17,7 +17,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  int _step = 0; // 0 = splash, 1 = mode grid
+  int _step = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +28,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     final bg = isDark ? const Color(0xFF1A1A2E) : AppColors.background;
     final textPrimary = isDark ? Colors.white : AppColors.textPrimary;
-    final textSecondary =
-        isDark ? const Color(0xFF9CA3AF) : AppColors.textSecondary;
-    final cardSurface =
-        isDark ? const Color(0xFF252540) : AppColors.surface;
+    final textSecondary = isDark ? const Color(0xFF9CA3AF) : AppColors.textSecondary;
+    final cardSurface = isDark ? const Color(0xFF252540) : AppColors.surface;
     final borderColor = isDark
         ? Colors.white.withValues(alpha: 0.08)
         : AppColors.primary.withValues(alpha: 0.15);
@@ -41,7 +39,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            // ── Step 1: Mode grid ────────────────────────────────────────────
             Positioned.fill(
               child: IgnorePointer(
                 ignoring: _step == 0,
@@ -63,8 +60,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
               ),
             ),
-
-            // ── Step 0: Splash ───────────────────────────────────────────────
             Positioned.fill(
               child: IgnorePointer(
                 ignoring: _step == 1,
@@ -86,9 +81,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 }
 
-// ── Splash (Step 0) ───────────────────────────────────────────────────────────
-// Always uses dark navy background (#1A1A2E) regardless of theme.
-
 class _SplashContent extends StatelessWidget {
   final bool isArabic;
   final S s;
@@ -103,18 +95,15 @@ class _SplashContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFF1A1A2E), // always dark navy
+      color: const Color(0xFF1A1A2E),
       child: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 36),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Card-stack logo
               const _WannasLogo(size: 100),
               const SizedBox(height: 28),
-
-              // App name
               Text(
                 s.appName,
                 style: appFont(
@@ -125,8 +114,6 @@ class _SplashContent extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-
-              // Tagline — "Real talk. Real fun."
               ShaderMask(
                 shaderCallback: (bounds) => const LinearGradient(
                   colors: [AppColors.primaryLight, AppColors.primary],
@@ -143,8 +130,6 @@ class _SplashContent extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-
-              // Mode / question count badge
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                 decoration: BoxDecoration(
@@ -165,8 +150,6 @@ class _SplashContent extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 52),
-
-              // Get Started button
               GestureDetector(
                 onTap: onStart,
                 child: Container(
@@ -205,8 +188,6 @@ class _SplashContent extends StatelessWidget {
   }
 }
 
-// ── Brand logo: two overlapping cards with "?" ────────────────────────────────
-
 class _WannasLogo extends StatelessWidget {
   final double size;
   const _WannasLogo({this.size = 100});
@@ -222,7 +203,6 @@ class _WannasLogo extends StatelessWidget {
       height: size,
       child: Stack(
         children: [
-          // Back card — soft purple, offset top-right
           Positioned(
             top: 0,
             left: size * 0.20,
@@ -235,7 +215,6 @@ class _WannasLogo extends StatelessWidget {
               ),
             ),
           ),
-          // Front card — primary purple, offset bottom-left
           Positioned(
             top: size * 0.12,
             left: 0,
@@ -272,7 +251,6 @@ class _WannasLogo extends StatelessWidget {
   }
 }
 
-/// Small version of the logo used in the top bar (36×36).
 class _WannasLogoSmall extends StatelessWidget {
   const _WannasLogoSmall();
 
@@ -283,7 +261,6 @@ class _WannasLogoSmall extends StatelessWidget {
       height: 36,
       child: Stack(
         children: [
-          // Back card
           Positioned(
             top: 0,
             left: 10,
@@ -296,7 +273,6 @@ class _WannasLogoSmall extends StatelessWidget {
               ),
             ),
           ),
-          // Front card
           Positioned(
             top: 6,
             left: 0,
@@ -333,8 +309,6 @@ class _WannasLogoSmall extends StatelessWidget {
   }
 }
 
-// ── Mode grid (Step 1) ────────────────────────────────────────────────────────
-
 class _ModeGridContent extends StatelessWidget {
   final bool isArabic;
   final bool isPremium;
@@ -363,13 +337,11 @@ class _ModeGridContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // ── Top bar ────────────────────────────────────────────────────────
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Card-stack logo + app name
               Row(
                 children: [
                   const _WannasLogoSmall(),
@@ -385,8 +357,6 @@ class _ModeGridContent extends StatelessWidget {
                   ),
                 ],
               ),
-
-              // Right actions — settings + language toggle (no premium badge)
               Row(
                 children: [
                   GestureDetector(
@@ -401,21 +371,16 @@ class _ModeGridContent extends StatelessWidget {
                       ),
                       child: Icon(
                         Icons.settings_rounded,
-                        color: isDark
-                            ? Colors.white70
-                            : AppColors.textSecondary,
+                        color: isDark ? Colors.white70 : AppColors.textSecondary,
                         size: 18,
                       ),
                     ),
                   ),
                   const SizedBox(width: 8),
-
-                  // Language toggle
                   GestureDetector(
                     onTap: onLanguageToggle,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       decoration: BoxDecoration(
                         color: cardSurface,
                         borderRadius: BorderRadius.circular(20),
@@ -437,8 +402,6 @@ class _ModeGridContent extends StatelessWidget {
             ],
           ),
         ),
-
-        // ── Heading ────────────────────────────────────────────────────────
         Padding(
           padding: const EdgeInsets.fromLTRB(24, 8, 24, 4),
           child: Text(
@@ -464,8 +427,6 @@ class _ModeGridContent extends StatelessWidget {
             ),
           ),
         ),
-
-        // ── 2×2 Mode grid ─────────────────────────────────────────────────
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -480,11 +441,10 @@ class _ModeGridContent extends StatelessWidget {
                   emoji: '💑',
                   title: s.dateMode,
                   tagline: s.dateModeTagline,
-                  cardBg: isDark
-                      ? const Color(0xFF2A1A2E)
-                      : AppColors.dateBg,
+                  cardBg: isDark ? const Color(0xFF2A1A2E) : AppColors.dateBg,
                   iconBg: AppColors.dateGradientStart,
                   isLocked: false,
+                  isDark: isDark,
                   isArabic: isArabic,
                   onTap: () => context.push('/vibe'),
                 ),
@@ -492,12 +452,11 @@ class _ModeGridContent extends StatelessWidget {
                   emoji: '🔥',
                   title: s.spiceMode,
                   tagline: s.spiceModeTagline,
-                  cardBg: isDark
-                      ? const Color(0xFF2A1E14)
-                      : AppColors.couplesBg,
+                  cardBg: isDark ? const Color(0xFF2A1E14) : AppColors.couplesBg,
                   iconBg: AppColors.spiceGradientStart,
                   isLocked: !isPremium,
                   isPremiumBadge: true,
+                  isDark: isDark,
                   isArabic: isArabic,
                   onTap: () => context.push('/mode/spiceItUp'),
                 ),
@@ -505,11 +464,10 @@ class _ModeGridContent extends StatelessWidget {
                   emoji: '👫',
                   title: s.sportMode,
                   tagline: s.sportModeTagline,
-                  cardBg: isDark
-                      ? const Color(0xFF1A1A2E)
-                      : AppColors.friendsBg,
+                  cardBg: isDark ? const Color(0xFF1A1A2E) : AppColors.friendsBg,
                   iconBg: AppColors.sportGradientStart,
                   isLocked: false,
+                  isDark: isDark,
                   isArabic: isArabic,
                   onTap: () => context.push('/friends'),
                 ),
@@ -517,11 +475,10 @@ class _ModeGridContent extends StatelessWidget {
                   emoji: '👨‍👩‍👧',
                   title: s.familyMode,
                   tagline: s.familyModeTagline,
-                  cardBg: isDark
-                      ? const Color(0xFF0F2A1A)
-                      : AppColors.familyBg,
+                  cardBg: isDark ? const Color(0xFF0F2A1A) : AppColors.familyBg,
                   iconBg: AppColors.familyGradientStart,
                   isLocked: false,
+                  isDark: isDark,
                   isArabic: isArabic,
                   onTap: () => context.push('/family'),
                 ),
@@ -529,8 +486,6 @@ class _ModeGridContent extends StatelessWidget {
             ),
           ),
         ),
-
-        // ── Bottom tagline ─────────────────────────────────────────────────
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
           child: Center(
@@ -550,8 +505,6 @@ class _ModeGridContent extends StatelessWidget {
   }
 }
 
-// ── Mode card widget ──────────────────────────────────────────────────────────
-
 class _ModeCard extends StatelessWidget {
   final String emoji;
   final String title;
@@ -560,6 +513,7 @@ class _ModeCard extends StatelessWidget {
   final Color iconBg;
   final bool isLocked;
   final bool isPremiumBadge;
+  final bool isDark;
   final bool isArabic;
   final VoidCallback onTap;
 
@@ -570,6 +524,7 @@ class _ModeCard extends StatelessWidget {
     required this.cardBg,
     required this.iconBg,
     required this.isLocked,
+    required this.isDark,
     required this.isArabic,
     required this.onTap,
     this.isPremiumBadge = false,
@@ -577,11 +532,8 @@ class _ModeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = ref.watch(darkModeProvider);
-    final textPrimary =
-        isDark ? Colors.white : AppColors.textPrimary;
-    final textSecondary =
-        isDark ? const Color(0xFF9CA3AF) : AppColors.textSecondary;
+    final textPrimary = isDark ? Colors.white : AppColors.textPrimary;
+    final textSecondary = isDark ? const Color(0xFF9CA3AF) : AppColors.textSecondary;
 
     return GestureDetector(
       onTap: onTap,
@@ -619,10 +571,7 @@ class _ModeCard extends StatelessWidget {
                       ],
                     ),
                     child: Center(
-                      child: Text(
-                        emoji,
-                        style: const TextStyle(fontSize: 30),
-                      ),
+                      child: Text(emoji, style: const TextStyle(fontSize: 30)),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -652,15 +601,12 @@ class _ModeCard extends StatelessWidget {
                 ],
               ),
             ),
-
-            // Premium badge
             if (isPremiumBadge)
               Positioned(
                 top: 14,
                 right: 14,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
                     color: AppColors.primary,
                     borderRadius: BorderRadius.circular(8),
@@ -676,8 +622,6 @@ class _ModeCard extends StatelessWidget {
                   ),
                 ),
               ),
-
-            // Lock overlay
             if (isLocked)
               Positioned.fill(
                 child: Container(
@@ -686,8 +630,7 @@ class _ModeCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(24),
                   ),
                   child: const Center(
-                    child: Icon(Icons.lock_rounded,
-                        color: Colors.white, size: 28),
+                    child: Icon(Icons.lock_rounded, color: Colors.white, size: 28),
                   ),
                 ),
               ),

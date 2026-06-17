@@ -8,6 +8,7 @@ import '../../core/providers/game_provider.dart';
 import '../../core/providers/language_provider.dart';
 import '../../core/services/questions_repository.dart';
 import 'friends_category_screen.dart';
+import '../../core/providers/dark_mode_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/providers/friends_providers.dart';
