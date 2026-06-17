@@ -7,6 +7,7 @@ import '../../core/models/game_mode.dart';
 import '../../core/providers/game_provider.dart';
 import '../../core/providers/language_provider.dart';
 import '../../core/services/questions_repository.dart';
+import '../../core/providers/dark_mode_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 
@@ -17,7 +18,7 @@ class VibeSelectScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = ref.watch(languageProvider);
     final s = S(isArabic);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = ref.watch(darkModeProvider);
 
     final bg = isDark ? const Color(0xFF0D0D1A) : AppColors.background;
     final cardBg = isDark ? const Color(0xFF1A1A2E) : AppColors.surface;
