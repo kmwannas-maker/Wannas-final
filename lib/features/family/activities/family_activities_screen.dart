@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/models/activity.dart';
 import '../../../core/providers/family_ai_providers.dart';
 import '../../../core/providers/language_provider.dart';
+import '../../../core/providers/dark_mode_provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme.dart';
 
@@ -67,7 +68,7 @@ class FamilyActivitiesScreen extends ConsumerWidget {
     final isArabic = ref.watch(languageProvider);
     final state = ref.watch(activitiesProvider);
     final notifier = ref.read(activitiesProvider.notifier);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = ref.watch(darkModeProvider);
 
     final bg = isDark ? const Color(0xFF0D0D1A) : AppColors.background;
     final cardBg = isDark ? const Color(0xFF1A1A2E) : AppColors.surface;

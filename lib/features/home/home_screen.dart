@@ -577,7 +577,7 @@ class _ModeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = ref.watch(darkModeProvider);
     final textPrimary =
         isDark ? Colors.white : AppColors.textPrimary;
     final textSecondary =

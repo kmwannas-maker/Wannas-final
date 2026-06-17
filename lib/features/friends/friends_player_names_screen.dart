@@ -19,7 +19,7 @@ class FriendsPlayerNamesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = ref.watch(languageProvider);
     final s = S(isArabic);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = ref.watch(darkModeProvider);
     final names = ref.watch(playerNamesProvider);
     final category = ref.watch(selectedCategoryProvider);
     final categoryMode = category?.mode ?? 'sport';

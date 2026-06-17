@@ -14,7 +14,7 @@ class FriendsIntroScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = ref.watch(languageProvider);
     final s = S(isArabic);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = ref.watch(darkModeProvider);
 
     final bg = isDark ? const Color(0xFF0D0D1A) : AppColors.background;
     final textPrimary = isDark ? Colors.white : AppColors.textPrimary;

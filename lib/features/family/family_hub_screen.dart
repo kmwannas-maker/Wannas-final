@@ -13,7 +13,7 @@ class FamilyHubScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = ref.watch(languageProvider);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = ref.watch(darkModeProvider);
     final s = S(isArabic);
 
     final bg = isDark ? const Color(0xFF0D0D1A) : AppColors.background;

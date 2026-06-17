@@ -15,7 +15,7 @@ class FriendsGameSettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = ref.watch(languageProvider);
     final s = S(isArabic);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = ref.watch(darkModeProvider);
     final difficulty = ref.watch(friendsDifficultyProvider);
     final timerSecs = ref.watch(friendsTimerSecondsProvider);
 

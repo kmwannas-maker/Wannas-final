@@ -25,7 +25,7 @@ class _FriendsPlayerCountScreenState
   Widget build(BuildContext context) {
     final isArabic = ref.watch(languageProvider);
     final s = S(isArabic);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = ref.watch(darkModeProvider);
     final category = ref.watch(selectedCategoryProvider);
 
     final bg = isDark ? const Color(0xFF0D0D1A) : AppColors.background;
