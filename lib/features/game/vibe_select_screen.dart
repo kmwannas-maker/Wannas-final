@@ -2,36 +2,65 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/l10n/strings.dart';
 import '../../core/models/game_mode.dart';
+import '../../core/providers/dark_mode_provider.dart';
 import '../../core/providers/game_provider.dart';
 import '../../core/providers/language_provider.dart';
 import '../../core/services/questions_repository.dart';
-import '../../core/providers/dark_mode_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 
 class VibeSelectScreen extends ConsumerWidget {
   const VibeSelectScreen({super.key});
 
+  static const _vibes = [
+    _Vibe(
+      emoji: '🧊',
+      titleEn: 'Ice-Breaking',
+      titleAr: 'كسر الجليد',
+      subtitleEn: 'Light & fun to get started',
+      subtitleAr: 'خفيف وممتع للبداية',
+      depth: 1,
+      gradient: [Color(0xFF38BDF8), Color(0xFF6366F1)],
+    ),
+    _Vibe(
+      emoji: '💬',
+      titleEn: 'Getting Real',
+      titleAr: 'الحقيقة',
+      subtitleEn: 'Honest & personal questions',
+      subtitleAr: 'أسئلة صادقة وشخصية',
+      depth: 2,
+      gradient: [Color(0xFF34D399), Color(0xFF059669)],
+    ),
+    _Vibe(
+      emoji: '🌹',
+      titleEn: 'Romantic',
+      titleAr: 'رومانسي',
+      subtitleEn: 'Sweet & heartfelt moments',
+      subtitleAr: 'لحظات رقيقة ومؤثرة',
+      depth: 3,
+      gradient: [Color(0xFFF87171), Color(0xFFE8537A)],
+    ),
+    _Vibe(
+      emoji: '🔮',
+      titleEn: 'Deep Talk',
+      titleAr: 'أعمق',
+      subtitleEn: 'Soul-level conversations',
+      subtitleAr: 'محادثات من القلب',
+      depth: 3,
+      gradient: [Color(0xFFA78BFA), Color(0xFF7C3AED)],
+    ),
+  ];
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = ref.watch(languageProvider);
-    final s = S(isArabic);
     final isDark = ref.watch(darkModeProvider);
-
-    final bg = isDark ? const Color(0xFF0D0D1A) : AppColors.background;
-    final cardBg = isDark ? const Color(0xFF1A1A2E) : AppColors.surface;
-    final textPrimary = isDark ? Colors.white : AppColors.textPrimary;
-    final textSecondary = isDark ? const Color(0xFF9CA3AF) : AppColors.textSecondary;
     final questionsAsync = ref.watch(questionsByModeProvider('date'));
 
-    final vibes = [
-      _Vibe(emoji: '🎯', title: s.vibeCurious,  depth: 1),
-      _Vibe(emoji: '😄', title: s.vibePlayful,  depth: 2),
-      _Vibe(emoji: '🥂', title: s.vibeRomantic, depth: 3),
-      _Vibe(emoji: '🗝️', title: s.vibeDeep,     depth: 3),
-    ];
+    final bg = isDark ? const Color(0xFF0D0D1A) : AppColors.background;
+    final textPrimary = isDark ? Colors.white : AppColors.textPrimary;
+    final textSecondary = isDark ? const Color(0xFF9CA3AF) : AppColors.textSecondary;
 
     return Scaffold(
       backgroundColor: bg,
@@ -51,51 +80,39 @@ class VibeSelectScreen extends ConsumerWidget {
             children: [
               const SizedBox(height: 8),
 
-              // Mode icon
-              Container(
-                width: 64,
-                height: 64,
-                decoration: BoxDecoration(
-                  color: AppColors.dateGradientStart,
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: const Center(
-                  child: Text('💑', style: TextStyle(fontSize: 32)),
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // Title
+              // Header
               Text(
-                s.whatsTheVibe,
+                '❤️',
+                style: const TextStyle(fontSize: 48),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                isArabic ? 'اختر المزاج' : 'Date Mode',
                 style: appFont(
                   isArabic: isArabic,
-                  fontSize: 28,
+                  fontSize: 30,
                   fontWeight: FontWeight.w800,
                   color: textPrimary,
-                  height: 1.2,
                 ),
               ),
               const SizedBox(height: 6),
               Text(
-                s.tapOneToCont,
+                isArabic ? 'اختر نوع الأسئلة للبدء.' : 'Pick a category to begin.',
                 style: appFont(
                   isArabic: isArabic,
                   fontSize: 15,
                   color: textSecondary,
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 28),
 
-              // 2×2 vibe grid
+              // Category list
               Expanded(
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  childAspectRatio: 1.15,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: vibes.map((vibe) {
+                child: ListView.separated(
+                  itemCount: _vibes.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 14),
+                  itemBuilder: (context, i) {
+                    final vibe = _vibes[i];
                     return GestureDetector(
                       onTap: () {
                         questionsAsync.whenData((allQuestions) {
@@ -110,44 +127,71 @@ class VibeSelectScreen extends ConsumerWidget {
                         });
                       },
                       child: Container(
+                        padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: cardBg,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: AppColors.dateGradientStart
-                                .withValues(alpha: 0.2),
+                          gradient: LinearGradient(
+                            colors: vibe.gradient,
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
+                          borderRadius: BorderRadius.circular(24),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.06),
-                              blurRadius: 12,
-                              offset: const Offset(0, 4),
+                              color: vibe.gradient.first.withValues(alpha: 0.35),
+                              blurRadius: 16,
+                              offset: const Offset(0, 6),
                             ),
                           ],
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Row(
                           children: [
-                            Text(vibe.emoji,
-                                style: const TextStyle(fontSize: 36)),
-                            const SizedBox(height: 10),
-                            Text(
-                              vibe.title,
-                              textAlign: TextAlign.center,
-                              style: appFont(
-                                isArabic: isArabic,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                color: textPrimary,
+                            Container(
+                              width: 56,
+                              height: 56,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Center(
+                                child: Text(vibe.emoji,
+                                    style: const TextStyle(fontSize: 28)),
                               ),
                             ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    isArabic ? vibe.titleAr : vibe.titleEn,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    isArabic ? vibe.subtitleAr : vibe.subtitleEn,
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.white70,
+                                      height: 1.3,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Icon(Icons.arrow_forward_ios_rounded,
+                                color: Colors.white54, size: 18),
                           ],
                         ),
                       ),
                     );
-                  }).toList(),
+                  },
                 ),
               ),
+              const SizedBox(height: 24),
             ],
           ),
         ),
@@ -158,7 +202,20 @@ class VibeSelectScreen extends ConsumerWidget {
 
 class _Vibe {
   final String emoji;
-  final String title;
+  final String titleEn;
+  final String titleAr;
+  final String subtitleEn;
+  final String subtitleAr;
   final int depth;
-  const _Vibe({required this.emoji, required this.title, required this.depth});
+  final List<Color> gradient;
+
+  const _Vibe({
+    required this.emoji,
+    required this.titleEn,
+    required this.titleAr,
+    required this.subtitleEn,
+    required this.subtitleAr,
+    required this.depth,
+    required this.gradient,
+  });
 }
