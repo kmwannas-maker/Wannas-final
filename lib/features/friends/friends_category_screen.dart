@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,7 +8,6 @@ import '../../core/providers/dark_mode_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 
-// Stores the selected category for the player count screen
 final selectedCategoryProvider = StateProvider<_Category?>((ref) => null);
 
 class FriendsCategoryScreen extends ConsumerWidget {
@@ -26,14 +25,14 @@ class FriendsCategoryScreen extends ConsumerWidget {
     final textSecondary = isDark ? const Color(0xFF9CA3AF) : AppColors.textSecondary;
 
     final categories = [
-      _Category(emoji: 'âš½', title: s.catFootball, available: true,  mode: 'sport'),
-      _Category(emoji: 'ðŸ“º', title: s.catTV,       available: true,  mode: 'tv'),
-      _Category(emoji: 'ðŸ’„', title: s.catBeauty,   available: true,  mode: 'beauty'),
-      _Category(emoji: 'ðŸŽµ', title: s.catMusic,    available: true,  mode: 'music'),
-      _Category(emoji: 'ðŸŽ®', title: s.catGaming,   available: true,  mode: 'gaming'),
-      _Category(emoji: 'ðŸ§ ', title: s.catWYR,      available: true,  mode: 'wyr'),
-      _Category(emoji: 'âœˆï¸', title: s.catTravel,   available: true,  mode: 'travel'),
-      _Category(emoji: 'ðŸ•', title: s.catFood,     available: true,  mode: 'food'),
+      _Category(emoji: '⚽', title: s.catFootball, available: true, mode: 'sport'),
+      _Category(emoji: '📺', title: s.catTV, available: true, mode: 'tv'),
+      _Category(emoji: '💄', title: s.catBeauty, available: true, mode: 'beauty'),
+      _Category(emoji: '🎵', title: s.catMusic, available: true, mode: 'music'),
+      _Category(emoji: '🎮', title: s.catGaming, available: true, mode: 'gaming'),
+      _Category(emoji: '🧠', title: s.catWYR, available: true, mode: 'wyr'),
+      _Category(emoji: '✈️', title: s.catTravel, available: true, mode: 'travel'),
+      _Category(emoji: '🍕', title: s.catFood, available: true, mode: 'food'),
     ];
 
     return Scaffold(
@@ -83,8 +82,6 @@ class FriendsCategoryScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 20),
-
-              // Category grid
               Expanded(
                 child: GridView.builder(
                   physics: const BouncingScrollPhysics(),
@@ -144,19 +141,15 @@ class FriendsCategoryScreen extends ConsumerWidget {
                                     height: 52,
                                     decoration: BoxDecoration(
                                       color: cat.available
-                                          ? AppColors.primary
-                                              .withValues(alpha: 0.12)
+                                          ? AppColors.primary.withValues(alpha: 0.12)
                                           : (isDark
-                                              ? Colors.white
-                                                  .withValues(alpha: 0.06)
-                                              : Colors.black
-                                                  .withValues(alpha: 0.05)),
+                                              ? Colors.white.withValues(alpha: 0.06)
+                                              : Colors.black.withValues(alpha: 0.05)),
                                       borderRadius: BorderRadius.circular(14),
                                     ),
                                     child: Center(
                                       child: Text(cat.emoji,
-                                          style:
-                                              const TextStyle(fontSize: 26)),
+                                          style: const TextStyle(fontSize: 26)),
                                     ),
                                   ),
                                   const SizedBox(height: 10),
@@ -167,15 +160,12 @@ class FriendsCategoryScreen extends ConsumerWidget {
                                       isArabic: isArabic,
                                       fontSize: 13,
                                       fontWeight: FontWeight.w700,
-                                      color: cat.available
-                                          ? textPrimary
-                                          : textSecondary,
+                                      color: cat.available ? textPrimary : textSecondary,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            // "Soon" badge for unavailable
                             if (!cat.available)
                               Positioned(
                                 top: 8,
@@ -184,8 +174,7 @@ class FriendsCategoryScreen extends ConsumerWidget {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 6, vertical: 2),
                                   decoration: BoxDecoration(
-                                    color: AppColors.gold
-                                        .withValues(alpha: 0.2),
+                                    color: AppColors.gold.withValues(alpha: 0.2),
                                     borderRadius: BorderRadius.circular(6),
                                   ),
                                   child: Text(
@@ -206,14 +195,12 @@ class FriendsCategoryScreen extends ConsumerWidget {
                   },
                 ),
               ),
-
-              // Switch mode
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: GestureDetector(
                   onTap: () => context.go('/'),
                   child: Text(
-                    isArabic ? 'ØªØºÙŠÙŠØ± Ø§Ù„ÙˆØ¶Ø¹' : 'Switch mode',
+                    isArabic ? 'تغيير الوضع' : 'Switch mode',
                     style: appFont(
                       isArabic: isArabic,
                       fontSize: 14,
@@ -243,4 +230,3 @@ class _Category {
     required this.mode,
   });
 }
-
