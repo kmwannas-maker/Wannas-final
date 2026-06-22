@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.wannas.myapp"
-applicationId = "com.wannas.myapp"
+    compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -24,7 +24,7 @@ applicationId = "com.wannas.myapp"
     }
 
     defaultConfig {
-        applicationId = "com.placeholder.card_connect"
+        applicationId = "com.wannas.myapp"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
