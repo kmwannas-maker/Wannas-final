@@ -5,8 +5,8 @@ plugins {
 }
 
 android {
-    namespace = "com.placeholder.card_connect"
-    compileSdk = flutter.compileSdkVersion
+    namespace = "com.wannas.myapp"
+applicationId = "com.wannas.myapp"
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
