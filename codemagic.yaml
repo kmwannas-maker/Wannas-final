@@ -14,7 +14,3 @@ workflows:
           flutter build appbundle --release
     artifacts:
       - build/**/outputs/**/*.aab
-    publishing:
-      google_play:
-        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
-        track: internal
