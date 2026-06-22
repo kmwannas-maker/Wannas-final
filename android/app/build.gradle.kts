@@ -18,7 +18,7 @@ android {
         create("release") {
             keyAlias = System.getenv("CM_KEY_ALIAS")
             keyPassword = System.getenv("CM_KEY_PASSWORD")
-            storeFile = System.getenv("CM_KEYSTORE")?.let { file(it) }
+            storeFile = System.getenv("CM_KEYSTORE_PATH")?.let { file(it) }
             storePassword = System.getenv("CM_KEYSTORE_PASSWORD")
         }
     }
