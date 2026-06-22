@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "170780952647",
-    "project_id": "card-connect-1",
-    "storage_bucket": "card-connect-1.firebasestorage.app"
+    "project_number": "472736371199",
+    "project_id": "card-connect-bbe16",
+    "storage_bucket": "card-connect-bbe16.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:170780952647:android:b8bb42e3475b59732e0962",
+        "mobilesdk_app_id": "1:472736371199:android:bbb5388ba2fcaf9c2c17ca",
         "android_client_info": {
-          "package_name": "com.placeholder.card_connect"
+          "package_name": "com.wannas.myapp"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAgCJF7Op3Vm3_uUulY5QfV_GIRNjlTt5o"
+          "current_key": "AIzaSyDwkfX4G-AZ15nlF4YYqk3-PIEK9b90wr8"
         }
       ],
       "services": {
