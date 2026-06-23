@@ -29,7 +29,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAgCJF7Op3Vm3_uUulY5QfV_GIRNjlTt5o',
-    appId: '1:170780952647:android:b8bb42e3475b59732e0962',
+    appId: '1:170780952647:android:ad822605b7ab1ad32e0962',
     messagingSenderId: '170780952647',
     projectId: 'card-connect-1',
     storageBucket: 'card-connect-1.firebasestorage.app',
