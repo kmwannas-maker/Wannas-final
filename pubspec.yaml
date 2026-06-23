@@ -1,7 +1,7 @@
-name: card_connect
-description: "A conversation card game for couples and families."
+name: wannas
+description: "A bilingual conversation card game for couples, friends & families."
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: ^3.12.0
