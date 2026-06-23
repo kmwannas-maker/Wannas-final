@@ -7,43 +7,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:170780952647:android:b8bb42e3475b59732e0962",
-        "android_client_info": {
-          "package_name": "com.placeholder.card_connect"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "170780952647-ngm8hojscrcuhu87aq6skkg40rahj43r.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.placeholder.card_connect",
-            "certificate_hash": "418f524164cd7dd843c5ad108982358d3b901691"
-          }
-        },
-        {
-          "client_id": "170780952647-5p9581okhcgo3e5oo6nsdq1q5aqh35jk.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAgCJF7Op3Vm3_uUulY5QfV_GIRNjlTt5o"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "170780952647-5p9581okhcgo3e5oo6nsdq1q5aqh35jk.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:170780952647:android:ad822605b7ab1ad32e0962",
         "android_client_info": {
           "package_name": "com.wannas.myapp"
