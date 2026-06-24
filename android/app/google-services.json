@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "170780952647-kg32v00ueovg0cj1g315fjejtdjv0j92.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wannas.myapp",
+            "certificate_hash": "b475a30d2a51d2602ce12e0cce0192e228b8331c"
+          }
+        },
+        {
           "client_id": "170780952647-5p9581okhcgo3e5oo6nsdq1q5aqh35jk.apps.googleusercontent.com",
           "client_type": 3
         }
