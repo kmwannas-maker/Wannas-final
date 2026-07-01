@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/providers/language_provider.dart';
-import '../../core/providers/dark_mode_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import 'friends_category_screen.dart';
@@ -26,13 +25,14 @@ class _FriendsPlayerCountScreenState
   Widget build(BuildContext context) {
     final isArabic = ref.watch(languageProvider);
     final s = S(isArabic);
-    final isDark = ref.watch(darkModeProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final category = ref.watch(selectedCategoryProvider);
 
     final bg = isDark ? const Color(0xFF0D0D1A) : AppColors.background;
     final cardBg = isDark ? const Color(0xFF1A1A2E) : AppColors.surface;
     final textPrimary = isDark ? Colors.white : AppColors.textPrimary;
-    final textSecondary = isDark ? const Color(0xFF9CA3AF) : AppColors.textSecondary;
+    final textSecondary =
+        isDark ? const Color(0xFF9CA3AF) : AppColors.textSecondary;
 
     return Scaffold(
       backgroundColor: bg,
@@ -40,7 +40,8 @@ class _FriendsPlayerCountScreenState
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_rounded, color: textPrimary, size: 20),
+          icon:
+              Icon(Icons.arrow_back_ios_rounded, color: textPrimary, size: 20),
           onPressed: () => context.canPop() ? context.pop() : context.go('/'),
         ),
       ),
@@ -50,6 +51,7 @@ class _FriendsPlayerCountScreenState
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Category icon
               if (category != null)
                 Container(
                   width: 72,
@@ -59,10 +61,13 @@ class _FriendsPlayerCountScreenState
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Center(
-                    child: Text(category.emoji, style: const TextStyle(fontSize: 38)),
+                    child: Text(category.emoji,
+                        style: const TextStyle(fontSize: 38)),
                   ),
                 ),
               const SizedBox(height: 28),
+
+              // Title
               Text(
                 s.howManyPlaying,
                 textAlign: TextAlign.center,
@@ -78,9 +83,15 @@ class _FriendsPlayerCountScreenState
               Text(
                 s.trackScoreSub,
                 textAlign: TextAlign.center,
-                style: appFont(isArabic: isArabic, fontSize: 15, color: textSecondary),
+                style: appFont(
+                  isArabic: isArabic,
+                  fontSize: 15,
+                  color: textSecondary,
+                ),
               ),
               const SizedBox(height: 48),
+
+              // Counter
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -88,7 +99,11 @@ class _FriendsPlayerCountScreenState
                     icon: Icons.remove_rounded,
                     enabled: _playerCount > 2,
                     cardBg: cardBg,
-                    onTap: () { if (_playerCount > 2) setState(() => _playerCount--); },
+                    onTap: () {
+                      if (_playerCount > 2) {
+                        setState(() => _playerCount--);
+                      }
+                    },
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -106,39 +121,52 @@ class _FriendsPlayerCountScreenState
                     icon: Icons.add_rounded,
                     enabled: _playerCount < 8,
                     cardBg: cardBg,
-                    onTap: () { if (_playerCount < 8) setState(() => _playerCount++); },
+                    onTap: () {
+                      if (_playerCount < 8) {
+                        setState(() => _playerCount++);
+                      }
+                    },
                   ),
                 ],
               ),
               const SizedBox(height: 12),
               Text(
                 s.minMaxPlayers,
-                style: appFont(isArabic: isArabic, fontSize: 13, color: textSecondary),
+                style: appFont(
+                  isArabic: isArabic,
+                  fontSize: 13,
+                  color: textSecondary,
+                ),
               ),
               const SizedBox(height: 56),
+
+              // Next button → initialise names/scores then go to settings
               GestureDetector(
                 onTap: () {
-                  final names = List.generate(_playerCount, (i) => 'Player ${i + 1}');
+                  final names = List.generate(
+                      _playerCount, (i) => 'Player ${i + 1}');
                   ref.read(playerNamesProvider.notifier).state = names;
-                  ref.read(playerScoresProvider.notifier).state = List.filled(_playerCount, 0);
+                  ref.read(playerScoresProvider.notifier).state =
+                      List.filled(_playerCount, 0);
                   context.push('/friends/settings');
                 },
                 child: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(vertical: 18),
                   decoration: BoxDecoration(
-                    color: AppColors.primary,
+                    color: AppColors.dateGradientEnd,
                     borderRadius: BorderRadius.circular(50),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.4),
+                        color:
+                            AppColors.dateGradientEnd.withValues(alpha: 0.4),
                         blurRadius: 20,
                         offset: const Offset(0, 8),
                       ),
                     ],
                   ),
                   child: Text(
-                    isArabic ? 'التالي' : 'Next',
+                    isArabic ? 'التالي →' : 'Next →',
                     textAlign: TextAlign.center,
                     style: appFont(
                       isArabic: isArabic,

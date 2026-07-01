@@ -8,7 +8,6 @@ import '../../core/providers/game_provider.dart';
 import '../../core/providers/language_provider.dart';
 import '../../core/services/questions_repository.dart';
 import 'friends_category_screen.dart';
-import '../../core/providers/dark_mode_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/providers/friends_providers.dart';
@@ -20,7 +19,7 @@ class FriendsPlayerNamesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = ref.watch(languageProvider);
     final s = S(isArabic);
-    final isDark = ref.watch(darkModeProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final names = ref.watch(playerNamesProvider);
     final category = ref.watch(selectedCategoryProvider);
     final categoryMode = category?.mode ?? 'sport';

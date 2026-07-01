@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
 import '../../core/providers/language_provider.dart';
-import '../../core/providers/dark_mode_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 
@@ -14,7 +13,7 @@ class FamilyHubScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = ref.watch(languageProvider);
-    final isDark = ref.watch(darkModeProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final s = S(isArabic);
 
     final bg = isDark ? const Color(0xFF0D0D1A) : AppColors.background;

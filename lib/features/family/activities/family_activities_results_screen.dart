@@ -17,13 +17,14 @@ class FamilyActivitiesResultsScreen extends ConsumerWidget {
     final notifier = ref.read(activitiesProvider.notifier);
 
     final locationEmoji = {
-      'Home': '🏠', 'Mall': '🛍️', 'Beach': '🏖️', 'Park': '🌳'
+      'Home': '🏠', 'Mall': '🛍️', 'Beach': '🏖️', 'Park': '🌳',
     }[state.location] ?? '📍';
+
     final locationLabel = {
-      'Home': isArabic ? 'البيت' : 'Home',
-      'Mall': isArabic ? 'المول' : 'Mall',
-      'Beach': isArabic ? 'الشاطئ' : 'Beach',
-      'Park': isArabic ? 'الحديقة' : 'Park',
+      'Home':  isArabic ? 'البيت'    : 'Home',
+      'Mall':  isArabic ? 'المول'    : 'Mall',
+      'Beach': isArabic ? 'الشاطئ'   : 'Beach',
+      'Park':  isArabic ? 'الحديقة'  : 'Park',
     }[state.location] ?? state.location;
 
     return Scaffold(
@@ -49,126 +50,84 @@ class FamilyActivitiesResultsScreen extends ConsumerWidget {
         centerTitle: true,
       ),
       body: SafeArea(
-        child: state.activities.when(
-          loading: () => Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const CircularProgressIndicator(
-                  color: Color(0xFF4776E6),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  isArabic
-                      ? 'نختار أفضل الأنشطة لكم...'
-                      : 'Finding the perfect activities...',
+        child: state.activities.isEmpty
+            ? Center(
+                child: Text(
+                  isArabic ? 'لا توجد أنشطة' : 'No activities found.',
                   style: appFont(
                     isArabic: isArabic,
-                    fontSize: 15,
+                    fontSize: 16,
                     color: Colors.white54,
                   ),
                 ),
-              ],
-            ),
-          ),
-          error: (e, _) => _ErrorView(
-            isArabic: isArabic,
-            onRetry: notifier.regenerate,
-          ),
-          data: (activities) => activities.isEmpty
-              ? _ErrorView(
-                  isArabic: isArabic,
-                  onRetry: notifier.regenerate,
-                )
-              : _ResultsBody(
-                  activities: activities,
-                  isArabic: isArabic,
-                  onTryAgain: notifier.regenerate,
-                  kidCount: state.numKids,
-                ),
-        ),
-      ),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-
-class _ResultsBody extends StatelessWidget {
-  final List<Activity> activities;
-  final bool isArabic;
-  final Future<void> Function() onTryAgain;
-  final int kidCount;
-
-  const _ResultsBody({
-    required this.activities,
-    required this.isArabic,
-    required this.onTryAgain,
-    required this.kidCount,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-            child: Text(
-              isArabic
-                  ? '$kidCount طفل/أطفال — ٣ أنشطة مقترحة ✨'
-                  : '$kidCount kid${kidCount > 1 ? 's' : ''} — 3 suggestions ✨',
-              style: appFont(
-                isArabic: isArabic,
-                fontSize: 14,
-                color: Colors.white54,
-              ),
-            ),
-          ),
-          ...activities.map((a) => Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: _ActivityCard(activity: a, isArabic: isArabic),
-              )),
-          const SizedBox(height: 8),
-
-          // Try Different Activities
-          GestureDetector(
-            onTap: onTryAgain,
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.08),
-                borderRadius: BorderRadius.circular(50),
-                border: Border.all(
-                  color: const Color(0xFF4776E6).withValues(alpha: 0.4),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.refresh_rounded,
-                      color: Color(0xFF4776E6), size: 20),
-                  const SizedBox(width: 8),
-                  Text(
-                    isArabic
-                        ? 'جرّب أنشطة مختلفة'
-                        : 'Try Different Activities',
-                    style: appFont(
-                      isArabic: isArabic,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF4776E6),
+              )
+            : SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20, vertical: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 4, vertical: 8),
+                      child: Text(
+                        isArabic
+                            ? '${state.numKids} طفل/أطفال — ٣ أنشطة مقترحة ✨'
+                            : '${state.numKids} kid${state.numKids > 1 ? 's' : ''} — 3 suggestions ✨',
+                        style: appFont(
+                          isArabic: isArabic,
+                          fontSize: 14,
+                          color: Colors.white54,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                    ...state.activities.map((a) => Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: _ActivityCard(
+                              activity: a, isArabic: isArabic),
+                        )),
+                    const SizedBox(height: 8),
+
+                    // Try Different Activities
+                    GestureDetector(
+                      onTap: notifier.regenerate,
+                      child: Container(
+                        width: double.infinity,
+                        padding:
+                            const EdgeInsets.symmetric(vertical: 16),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(
+                            color: const Color(0xFF4776E6)
+                                .withValues(alpha: 0.4),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.refresh_rounded,
+                                color: Color(0xFF4776E6), size: 20),
+                            const SizedBox(width: 8),
+                            Text(
+                              isArabic
+                                  ? 'جرّب أنشطة مختلفة'
+                                  : 'Try Different Activities',
+                              style: appFont(
+                                isArabic: isArabic,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: const Color(0xFF4776E6),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
+                ),
               ),
-            ),
-          ),
-          const SizedBox(height: 24),
-        ],
       ),
     );
   }
@@ -236,61 +195,6 @@ class _ActivityCard extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _ErrorView extends StatelessWidget {
-  final bool isArabic;
-  final Future<void> Function() onRetry;
-
-  const _ErrorView({required this.isArabic, required this.onRetry});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('😅', style: TextStyle(fontSize: 48)),
-            const SizedBox(height: 16),
-            Text(
-              isArabic
-                  ? 'حدث خطأ ما، حاول مجدداً'
-                  : 'Something went wrong. Try again?',
-              textAlign: TextAlign.center,
-              style: appFont(
-                isArabic: isArabic,
-                fontSize: 16,
-                color: Colors.white70,
-              ),
-            ),
-            const SizedBox(height: 24),
-            GestureDetector(
-              onTap: onRetry,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 32, vertical: 14),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF4776E6),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: Text(
-                  isArabic ? 'حاول مجدداً' : 'Try Again',
-                  style: appFont(
-                    isArabic: isArabic,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

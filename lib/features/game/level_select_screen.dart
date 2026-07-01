@@ -7,7 +7,6 @@ import '../../core/models/game_mode.dart';
 import '../../core/models/question.dart';
 import '../../core/providers/game_provider.dart';
 import '../../core/providers/language_provider.dart';
-import '../../core/providers/purchase_provider.dart';
 import '../../core/services/questions_repository.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -29,19 +28,30 @@ class LevelSelectScreen extends ConsumerWidget {
     }
   }
 
+  /// Fallback route if there's nothing to pop back to.
+  /// This screen is reached directly from Home for every mode
+  /// (Home -> /vibe -> /game for Dating is the only exception,
+  /// where Dating goes through VibeSelectScreen first). For all
+  /// modes that land here, the correct fallback is Home, not a
+  /// hardcoded route belonging to a different mode.
+  String get _fallbackRoute {
+    switch (mode) {
+      case GameMode.dateMode:
+        return '/vibe';
+      case GameMode.spiceItUp:
+      case GameMode.familyTime:
+      case GameMode.sportMode:
+        return '/';
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = ref.watch(languageProvider);
-    final isPremium = ref.watch(isPremiumProvider);
     final s = S(isArabic);
 
-    // Spice It Up requires premium
-    if (mode == GameMode.spiceItUp && !isPremium) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        context.push('/paywall');
-      });
-      return const Scaffold(backgroundColor: AppColors.background);
-    }
+    // Premium is open for all users for now
+    const isPremium = true;
 
     final questionsAsync = ref.watch(questionsByModeProvider(_modeKey));
     final Color accentColor = _accentFor(mode);
@@ -54,7 +64,9 @@ class LevelSelectScreen extends ConsumerWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_rounded,
               color: AppColors.textPrimary),
-          onPressed: () => context.canPop() ? context.pop() : context.go('/'),
+          onPressed: () => context.canPop()
+              ? context.pop()
+              : context.go(_fallbackRoute),
         ),
         title: Text(
           _modeTitle(mode, s),
@@ -78,7 +90,6 @@ class LevelSelectScreen extends ConsumerWidget {
             context, ref, questions, isPremium, s, isArabic, accentColor,
           ),
         ),
-
       ),
     );
   }
@@ -131,7 +142,6 @@ class LevelSelectScreen extends ConsumerWidget {
     );
   }
 
-  // ── Sport: 4-league grid (scrollable) ──────────────────────────────────────
   Widget _buildSportOptions(
     BuildContext context,
     WidgetRef ref,
@@ -171,7 +181,6 @@ class LevelSelectScreen extends ConsumerWidget {
     );
   }
 
-  // ── Standard 3-level options ────────────────────────────────────────────────
   List<Widget> _buildOptions(
     BuildContext context,
     WidgetRef ref,
@@ -203,28 +212,24 @@ class LevelSelectScreen extends ConsumerWidget {
             emoji: '🌙',
             title: s.medium,
             desc: s.mediumDesc,
-            badge: s.premium,
-            badgeColor: AppColors.gold,
-            locked: !isPremium,
+            badge: s.free,
+            badgeColor: Colors.green,
+            locked: false,
             accent: accent,
             isArabic: isArabic,
-            onTap: isPremium
-                ? () => _startGame(context, ref, mode, byDepth(2))
-                : () => context.push('/paywall'),
+            onTap: () => _startGame(context, ref, mode, byDepth(2)),
           ),
           const SizedBox(height: 12),
           _LevelTile(
             emoji: '🌌',
             title: s.deep,
             desc: s.deepDesc,
-            badge: s.premium,
-            badgeColor: AppColors.gold,
-            locked: !isPremium,
+            badge: s.free,
+            badgeColor: Colors.green,
+            locked: false,
             accent: accent,
             isArabic: isArabic,
-            onTap: isPremium
-                ? () => _startGame(context, ref, mode, byDepth(3))
-                : () => context.push('/paywall'),
+            onTap: () => _startGame(context, ref, mode, byDepth(3)),
           ),
         ];
 
@@ -234,8 +239,8 @@ class LevelSelectScreen extends ConsumerWidget {
             emoji: '🌡️',
             title: s.warm,
             desc: s.warmDesc,
-            badge: s.premium,
-            badgeColor: AppColors.gold,
+            badge: s.free,
+            badgeColor: Colors.green,
             locked: false,
             accent: accent,
             isArabic: isArabic,
@@ -246,8 +251,8 @@ class LevelSelectScreen extends ConsumerWidget {
             emoji: '🌶️',
             title: s.hot,
             desc: s.hotDesc,
-            badge: s.premium,
-            badgeColor: AppColors.gold,
+            badge: s.free,
+            badgeColor: Colors.green,
             locked: false,
             accent: accent,
             isArabic: isArabic,
@@ -258,8 +263,8 @@ class LevelSelectScreen extends ConsumerWidget {
             emoji: '🔥',
             title: s.onFire,
             desc: s.onFireDesc,
-            badge: s.premium,
-            badgeColor: AppColors.gold,
+            badge: s.free,
+            badgeColor: Colors.green,
             locked: false,
             accent: accent,
             isArabic: isArabic,
@@ -285,28 +290,24 @@ class LevelSelectScreen extends ConsumerWidget {
             emoji: '🎮',
             title: s.tweens,
             desc: s.tweensDesc,
-            badge: s.premium,
-            badgeColor: AppColors.gold,
-            locked: !isPremium,
+            badge: s.free,
+            badgeColor: Colors.green,
+            locked: false,
             accent: accent,
             isArabic: isArabic,
-            onTap: isPremium
-                ? () => _startGame(context, ref, mode, byDepth(2))
-                : () => context.push('/paywall'),
+            onTap: () => _startGame(context, ref, mode, byDepth(2)),
           ),
           const SizedBox(height: 12),
           _LevelTile(
             emoji: '🎧',
             title: s.teens,
             desc: s.teensDesc,
-            badge: s.premium,
-            badgeColor: AppColors.gold,
-            locked: !isPremium,
+            badge: s.free,
+            badgeColor: Colors.green,
+            locked: false,
             accent: accent,
             isArabic: isArabic,
-            onTap: isPremium
-                ? () => _startGame(context, ref, mode, byDepth(3))
-                : () => context.push('/paywall'),
+            onTap: () => _startGame(context, ref, mode, byDepth(3)),
           ),
         ];
 
@@ -318,7 +319,6 @@ class LevelSelectScreen extends ConsumerWidget {
   void _startGame(BuildContext context, WidgetRef ref, GameMode mode,
       List<Question> questions) {
     if (questions.isEmpty) return;
-    // startGame shuffles and takes 30
     ref.read(gameStateProvider.notifier).startGame(mode, questions);
     context.push('/game');
   }
@@ -381,83 +381,83 @@ class _LevelTile extends StatelessWidget {
         duration: const Duration(milliseconds: 150),
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-          decoration: BoxDecoration(
-            color: AppColors.surface,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: locked
-                  ? AppColors.textMuted.withValues(alpha: 0.2)
-                  : accent.withValues(alpha: 0.35),
-              width: 1.5,
-            ),
-          ),
-          child: Row(
-            children: [
-              Text(emoji, style: const TextStyle(fontSize: 32)),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: isArabic
-                      ? CrossAxisAlignment.end
-                      : CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: isArabic
-                          ? MainAxisAlignment.end
-                          : MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          title,
-                          style: appFont(
-                            isArabic: isArabic,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w700,
-                            color: locked
-                                ? AppColors.textMuted
-                                : AppColors.textPrimary,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: badgeColor.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            badge,
-                            style: appFont(
-                              isArabic: isArabic,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w700,
-                              color: badgeColor,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      desc,
-                      style: appFont(
-                        isArabic: isArabic,
-                        fontSize: 13,
-                        color: AppColors.textMuted,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 12),
-              if (locked)
-                const Icon(Icons.lock_rounded, color: AppColors.gold, size: 20)
-              else
-                Icon(Icons.arrow_forward_ios_rounded, color: accent, size: 18),
-            ],
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: locked
+                ? AppColors.textMuted.withValues(alpha: 0.2)
+                : accent.withValues(alpha: 0.35),
+            width: 1.5,
           ),
         ),
+        child: Row(
+          children: [
+            Text(emoji, style: const TextStyle(fontSize: 32)),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: isArabic
+                    ? CrossAxisAlignment.end
+                    : CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: isArabic
+                        ? MainAxisAlignment.end
+                        : MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: appFont(
+                          isArabic: isArabic,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                          color: locked
+                              ? AppColors.textMuted
+                              : AppColors.textPrimary,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: badgeColor.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          badge,
+                          style: appFont(
+                            isArabic: isArabic,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: badgeColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    desc,
+                    style: appFont(
+                      isArabic: isArabic,
+                      fontSize: 13,
+                      color: AppColors.textMuted,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            if (locked)
+              const Icon(Icons.lock_rounded, color: AppColors.gold, size: 20)
+            else
+              Icon(Icons.arrow_forward_ios_rounded, color: accent, size: 18),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -3,11 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/providers/language_provider.dart';
 import '../../core/providers/dark_mode_provider.dart';
+import '../../core/providers/language_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 
+// Stores the selected category for the player count screen
 final selectedCategoryProvider = StateProvider<_Category?>((ref) => null);
 
 class FriendsCategoryScreen extends ConsumerWidget {
@@ -25,14 +26,14 @@ class FriendsCategoryScreen extends ConsumerWidget {
     final textSecondary = isDark ? const Color(0xFF9CA3AF) : AppColors.textSecondary;
 
     final categories = [
-      _Category(emoji: '⚽', title: s.catFootball, available: true, mode: 'sport'),
-      _Category(emoji: '📺', title: s.catTV, available: true, mode: 'tv'),
-      _Category(emoji: '💄', title: s.catBeauty, available: true, mode: 'beauty'),
-      _Category(emoji: '🎵', title: s.catMusic, available: true, mode: 'music'),
-      _Category(emoji: '🎮', title: s.catGaming, available: true, mode: 'gaming'),
-      _Category(emoji: '🧠', title: s.catWYR, available: true, mode: 'wyr'),
-      _Category(emoji: '✈️', title: s.catTravel, available: true, mode: 'travel'),
-      _Category(emoji: '🍕', title: s.catFood, available: true, mode: 'food'),
+      _Category(emoji: '⚽', title: s.catFootball, available: true,  mode: 'sport'),
+      _Category(emoji: '📺', title: s.catTV,       available: true,  mode: 'tv'),
+      _Category(emoji: '💄', title: s.catBeauty,   available: true,  mode: 'beauty'),
+      _Category(emoji: '🎵', title: s.catMusic,    available: true,  mode: 'music'),
+      _Category(emoji: '🎮', title: s.catGaming,   available: true,  mode: 'gaming'),
+      _Category(emoji: '🧠', title: s.catWYR,      available: true,  mode: 'wyr'),
+      _Category(emoji: '✈️', title: s.catTravel,   available: true,  mode: 'travel'),
+      _Category(emoji: '🍕', title: s.catFood,     available: true,  mode: 'food'),
     ];
 
     return Scaffold(
@@ -160,7 +161,9 @@ class FriendsCategoryScreen extends ConsumerWidget {
                                       isArabic: isArabic,
                                       fontSize: 13,
                                       fontWeight: FontWeight.w700,
-                                      color: cat.available ? textPrimary : textSecondary,
+                                      color: cat.available
+                                          ? textPrimary
+                                          : textSecondary,
                                     ),
                                   ),
                                 ],

@@ -56,13 +56,11 @@ class _GameScreenState extends ConsumerState<GameScreen>
   late final ConfettiController _confettiCtrl;
   late final AnimationController _flipCtrl;
 
-  // Reaction emojis for "How did that land?"
   static const _reactionEmojis = ['🔥', '😂', '💡', '🥺'];
 
-  // Brand dark background
   static const _bg     = Color(0xFF1A1A2E);
   static const _cardBg = Color(0xFF252540);
-  static const _accent = AppColors.primary; // #6C5CE7
+  static const _accent = AppColors.primary;
 
   static const _deeperEn = [
     'Now share why you feel that way...',
@@ -116,7 +114,6 @@ class _GameScreenState extends ConsumerState<GameScreen>
     }
   }
 
-  // Slide to next card. countFlame=false for skip.
   void _flipToNext({bool countFlame = true}) {
     if (_flipCtrl.isAnimating) return;
     _midReached = false;
@@ -160,7 +157,6 @@ class _GameScreenState extends ConsumerState<GameScreen>
         ? _deeperAr[gameState.currentIndex % _deeperAr.length]
         : _deeperEn[gameState.currentIndex % _deeperEn.length];
 
-    // Card theme-aware colors
     final cardBg       = isDark ? _cardBg : Colors.white;
     final cardText     = isDark ? Colors.white : AppColors.textPrimary;
     final cardModeIcon = isDark
@@ -183,7 +179,10 @@ class _GameScreenState extends ConsumerState<GameScreen>
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop) { ref.read(gameStateProvider.notifier).reset(); context.go('/vibe'); }
+        if (!didPop) {
+          ref.read(gameStateProvider.notifier).reset();
+          context.go('/vibe');
+        }
       },
       child: Scaffold(
         backgroundColor: _bg,
@@ -225,15 +224,14 @@ class _GameScreenState extends ConsumerState<GameScreen>
                       ),
                     ),
                     Expanded(
-                      child: Column(children: [
-                        Text(
+                      child: Center(
+                        child: Text(
                           '$modeEmoji  ${modeLabel.toUpperCase()}',
                           style: appFont(isArabic: isArabic, fontSize: 13,
                               fontWeight: FontWeight.w700, color: _accent),
                         ),
-                      ]),
+                      ),
                     ),
-                    // Flame streak — only shown when ≥ 3
                     SizedBox(
                       width: 60,
                       child: _flameCount >= 3
@@ -288,14 +286,12 @@ class _GameScreenState extends ConsumerState<GameScreen>
                       ),
                       const SizedBox(height: 4),
 
-                      // ── Question card (swipeable + slide/fade transition) ─
+                      // ── Question card ─────────────────────────────────────
                       Expanded(
                         child: AnimatedBuilder(
                           animation: _flipCtrl,
                           builder: (ctx, child) {
                             final v = _flipCtrl.value;
-                            // Phase 1 (0→0.5): slide left + fade out
-                            // Phase 2 (0.5→1): slide in from right + fade in
                             final double dx;
                             final double opacity;
                             if (v <= 0.5) {
@@ -307,10 +303,7 @@ class _GameScreenState extends ConsumerState<GameScreen>
                             }
                             return FractionalTranslation(
                               translation: Offset(dx, 0),
-                              child: Opacity(
-                                opacity: opacity,
-                                child: child,
-                              ),
+                              child: Opacity(opacity: opacity, child: child),
                             );
                           },
                           child: GestureDetector(
@@ -365,7 +358,6 @@ class _GameScreenState extends ConsumerState<GameScreen>
                                   )],
                                 ),
                                 child: Column(children: [
-                                  // Card header
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -397,8 +389,6 @@ class _GameScreenState extends ConsumerState<GameScreen>
                                       ),
                                     ],
                                   ),
-
-                                  // Question + deeper + answer
                                   Expanded(
                                     child: Center(
                                       child: SingleChildScrollView(
@@ -417,22 +407,16 @@ class _GameScreenState extends ConsumerState<GameScreen>
                                                 height: 1.45,
                                               ),
                                             ),
-
-                                            // Go Deeper panel
                                             if (_goingDeeper) ...[
                                               const SizedBox(height: 16),
                                               Container(
                                                 width: double.infinity,
-                                                padding:
-                                                    const EdgeInsets.all(14),
+                                                padding: const EdgeInsets.all(14),
                                                 decoration: BoxDecoration(
-                                                  color: _accent.withValues(
-                                                      alpha: 0.1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(14),
+                                                  color: _accent.withValues(alpha: 0.1),
+                                                  borderRadius: BorderRadius.circular(14),
                                                   border: Border.all(
-                                                      color: _accent
-                                                          .withValues(alpha: 0.4)),
+                                                      color: _accent.withValues(alpha: 0.4)),
                                                 ),
                                                 child: Text(
                                                   deeperText,
@@ -447,60 +431,43 @@ class _GameScreenState extends ConsumerState<GameScreen>
                                                 ),
                                               ),
                                             ],
-
-                                            // Trivia reveal
                                             if (isTrivia && !_showAnswer) ...[
                                               const SizedBox(height: 20),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => _showAnswer = true),
                                                 child: Container(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 22,
-                                                      vertical: 10),
+                                                  padding: const EdgeInsets.symmetric(
+                                                      horizontal: 22, vertical: 10),
                                                   decoration: BoxDecoration(
-                                                    color: _accent.withValues(
-                                                        alpha: 0.2),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
+                                                    color: _accent.withValues(alpha: 0.2),
+                                                    borderRadius: BorderRadius.circular(20),
                                                     border: Border.all(
-                                                        color: _accent
-                                                            .withValues(
-                                                                alpha: 0.5)),
+                                                        color: _accent.withValues(alpha: 0.5)),
                                                   ),
                                                   child: Text(
-                                                    isArabic
-                                                        ? '👁 اكشف الإجابة'
-                                                        : '👁 Reveal Answer',
+                                                    isArabic ? '👁 اكشف الإجابة' : '👁 Reveal Answer',
                                                     style: appFont(
                                                         isArabic: isArabic,
                                                         fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.w700,
+                                                        fontWeight: FontWeight.w700,
                                                         color: _accent),
                                                   ),
                                                 ),
                                               ),
                                             ],
-
                                             if (isTrivia && _showAnswer) ...[
                                               const SizedBox(height: 20),
                                               Container(
                                                 width: double.infinity,
-                                                padding:
-                                                    const EdgeInsets.all(14),
+                                                padding: const EdgeInsets.all(14),
                                                 decoration: BoxDecoration(
                                                   color: const Color(0xFF4ADE80)
                                                       .withValues(alpha: 0.1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(14),
+                                                  borderRadius: BorderRadius.circular(14),
                                                   border: Border.all(
-                                                      color: const Color(
-                                                              0xFF4ADE80)
-                                                          .withValues(
-                                                              alpha: 0.5)),
+                                                      color: const Color(0xFF4ADE80)
+                                                          .withValues(alpha: 0.5)),
                                                 ),
                                                 child: Text(
                                                   answerText,
@@ -509,8 +476,7 @@ class _GameScreenState extends ConsumerState<GameScreen>
                                                     isArabic: isArabic,
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w700,
-                                                    color:
-                                                        const Color(0xFF4ADE80),
+                                                    color: const Color(0xFF4ADE80),
                                                     height: 1.4,
                                                   ),
                                                 ),
@@ -521,8 +487,6 @@ class _GameScreenState extends ConsumerState<GameScreen>
                                       ),
                                     ),
                                   ),
-
-                                  // Bottom dash
                                   Container(
                                     width: 40, height: 4,
                                     decoration: BoxDecoration(
@@ -559,8 +523,7 @@ class _GameScreenState extends ConsumerState<GameScreen>
                             }),
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 150),
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 7),
+                              margin: const EdgeInsets.symmetric(horizontal: 7),
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 color: sel
@@ -585,8 +548,7 @@ class _GameScreenState extends ConsumerState<GameScreen>
                       const SizedBox(height: 10),
 
                       // ── Progress dots ───────────────────────────────────
-                      _ProgressDots(
-                          current: (gameState.currentIndex % 7) + 1),
+                      _ProgressDots(current: (gameState.currentIndex % 7) + 1),
 
                       const SizedBox(height: 10),
 
@@ -599,15 +561,13 @@ class _GameScreenState extends ConsumerState<GameScreen>
                                 context.go('/vibe');
                               })
                           : Row(children: [
-                              // Go Deeper — reveals a follow-up prompt
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () =>
                                       setState(() => _goingDeeper = !_goingDeeper),
                                   child: AnimatedContainer(
                                     duration: const Duration(milliseconds: 150),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 15),
+                                    padding: const EdgeInsets.symmetric(vertical: 15),
                                     decoration: BoxDecoration(
                                       color: _goingDeeper
                                           ? _accent.withValues(alpha: 0.15)
@@ -616,8 +576,7 @@ class _GameScreenState extends ConsumerState<GameScreen>
                                       border: Border.all(
                                           color: _goingDeeper
                                               ? _accent.withValues(alpha: 0.5)
-                                              : Colors.white
-                                                  .withValues(alpha: 0.2)),
+                                              : Colors.white.withValues(alpha: 0.2)),
                                     ),
                                     child: Text(
                                       isArabic ? 'أعمق' : 'Go Deeper',
@@ -626,28 +585,21 @@ class _GameScreenState extends ConsumerState<GameScreen>
                                           isArabic: isArabic,
                                           fontSize: 15,
                                           fontWeight: FontWeight.w700,
-                                          color: _goingDeeper
-                                              ? _accent
-                                              : Colors.white),
+                                          color: _goingDeeper ? _accent : Colors.white),
                                     ),
                                   ),
                                 ),
                               ),
                               const SizedBox(width: 10),
-                              // Next Card — slides to next
                               Expanded(
                                 flex: 2,
                                 child: GestureDetector(
                                   onTap: () => _flipToNext(),
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 15),
+                                    padding: const EdgeInsets.symmetric(vertical: 15),
                                     decoration: BoxDecoration(
                                       gradient: const LinearGradient(
-                                          colors: [
-                                            AppColors.primary,
-                                            AppColors.primaryLight,
-                                          ]),
+                                          colors: [AppColors.primary, AppColors.primaryLight]),
                                       borderRadius: BorderRadius.circular(50),
                                       boxShadow: [BoxShadow(
                                         color: _accent.withValues(alpha: 0.4),
@@ -675,9 +627,7 @@ class _GameScreenState extends ConsumerState<GameScreen>
                       GestureDetector(
                         onTap: () => _flipToNext(countFlame: false),
                         child: Text(
-                          isArabic
-                              ? '⏭ تخطَّ هذا السؤال'
-                              : '⏭ Skip this question',
+                          isArabic ? '⏭ تخطَّ هذا السؤال' : '⏭ Skip this question',
                           style: appFont(isArabic: isArabic, fontSize: 13,
                               color: Colors.white38),
                         ),
@@ -689,7 +639,7 @@ class _GameScreenState extends ConsumerState<GameScreen>
                 ),
               ]),
 
-              // ── Confetti overlay ────────────────────────────────────────────
+              // ── Confetti overlay ──────────────────────────────────────────
               IgnorePointer(
                 child: Align(
                   alignment: Alignment.topCenter,

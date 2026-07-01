@@ -1,7 +1,7 @@
-name: wannas
-description: "A bilingual conversation card game for couples, friends & families."
+name: card_connect
+description: "A conversation card game for couples and families."
 publish_to: 'none'
-version: 1.0.2+4
+version: 1.0.0+1
 
 environment:
   sdk: ^3.12.0
@@ -15,8 +15,6 @@ dependencies:
   google_fonts: ^6.2.1
   cupertino_icons: ^1.0.8
   firebase_core: ^3.13.0
-  firebase_auth: ^5.3.1
-  google_sign_in: ^6.2.1
   cloud_firestore: ^5.6.6
   package_info_plus: ^8.0.0
   http: ^1.2.0
@@ -28,4 +26,4 @@ dev_dependencies:
   flutter_lints: ^6.0.0
 
 flutter:
-  uses-material-design: true  
+  uses-material-design: true

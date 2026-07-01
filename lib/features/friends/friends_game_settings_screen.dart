@@ -1,13 +1,13 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
-import '../../core/providers/language_provider.dart';
 import '../../core/providers/dark_mode_provider.dart';
+import '../../core/providers/friends_providers.dart';
+import '../../core/providers/language_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
-import '../../core/providers/friends_providers.dart';
 
 class FriendsGameSettingsScreen extends ConsumerWidget {
   const FriendsGameSettingsScreen({super.key});
@@ -30,9 +30,9 @@ class FriendsGameSettingsScreen extends ConsumerWidget {
         : AppColors.primary.withValues(alpha: 0.12);
 
     final difficulties = [
-      {'key': 'easy', 'title': s.easyDiff, 'desc': s.easyDiffDesc},
-      {'key': 'medium', 'title': s.mediumDiff, 'desc': s.mediumDiffDesc},
-      {'key': 'hard', 'title': s.hardDiff, 'desc': s.hardDiffDesc},
+      {'key': 'easy',   'title': s.easyDiff,   'desc': s.easyDiffDesc},
+      {'key': 'medium', 'title': s.mediumDiff,  'desc': s.mediumDiffDesc},
+      {'key': 'hard',   'title': s.hardDiff,    'desc': s.hardDiffDesc},
     ];
 
     return Scaffold(
@@ -41,8 +41,7 @@ class FriendsGameSettingsScreen extends ConsumerWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon:
-              Icon(Icons.arrow_back_ios_rounded, color: textPrimary, size: 20),
+          icon: Icon(Icons.arrow_back_ios_rounded, color: textPrimary, size: 20),
           onPressed: () => context.canPop() ? context.pop() : context.go('/'),
         ),
       ),
@@ -73,7 +72,7 @@ class FriendsGameSettingsScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 32),
 
-              // â”€â”€ DIFFICULTY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              // ── DIFFICULTY ────────────────────────────────────────────────
               Text(
                 s.difficultyLabel,
                 style: appFont(
@@ -105,8 +104,7 @@ class FriendsGameSettingsScreen extends ConsumerWidget {
                             : cardBg,
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(
-                          color:
-                              isSelected ? AppColors.primary : borderIdle,
+                          color: isSelected ? AppColors.primary : borderIdle,
                           width: isSelected ? 2 : 1,
                         ),
                       ),
@@ -139,8 +137,8 @@ class FriendsGameSettingsScreen extends ConsumerWidget {
                 );
               }),
 
-              // â”€â”€ TIMER PER QUESTION (hidden when hard â€” timer is fixed 10 s) â”€â”€
-              if (difficulty != 'hard') ...[
+              // ── TIMER — only shown for medium difficulty ───────────────────
+              if (difficulty == 'medium') ...[
                 const SizedBox(height: 20),
                 Text(
                   s.timerPerQuestion,
@@ -165,8 +163,7 @@ class FriendsGameSettingsScreen extends ConsumerWidget {
                               .state = secs,
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 150),
-                            padding:
-                                const EdgeInsets.symmetric(vertical: 14),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
                             decoration: BoxDecoration(
                               color: isSelected
                                   ? AppColors.primary.withValues(alpha: 0.12)
@@ -201,7 +198,7 @@ class FriendsGameSettingsScreen extends ConsumerWidget {
 
               const Spacer(),
 
-              // Next â†’
+              // Next →
               GestureDetector(
                 onTap: () => context.push('/friends/names'),
                 child: Container(
@@ -219,7 +216,7 @@ class FriendsGameSettingsScreen extends ConsumerWidget {
                     ],
                   ),
                   child: Text(
-                    isArabic ? 'Ø§Ù„ØªØ§Ù„ÙŠ â†’' : 'Next â†’',
+                    isArabic ? 'التالي →' : 'Next →',
                     textAlign: TextAlign.center,
                     style: appFont(
                       isArabic: isArabic,
@@ -238,4 +235,3 @@ class FriendsGameSettingsScreen extends ConsumerWidget {
     );
   }
 }
-

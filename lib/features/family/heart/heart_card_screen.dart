@@ -22,7 +22,6 @@ class HeartCardScreen extends ConsumerWidget {
       'young_kids': isArabic ? '👦 الأطفال الصغار' : '👦 Young Kids',
       'older_kids': isArabic ? '🧒 الأطفال الكبار' : '🧒 Older Kids',
       'teens': isArabic ? '👫 المراهقون' : '👫 Teens',
-      'mixed': isArabic ? '❤️ أعمار مختلطة' : '❤️ Mixed Ages',
     }[state.groupType] ?? '';
 
     // Paywall check
@@ -97,8 +96,7 @@ class HeartCardScreen extends ConsumerWidget {
               }
               return _CardBody(
                 question: card.question,
-                followUp:
-                    state.showFollowUp ? card.followUp : null,
+                followUp: state.showFollowUp ? card.followUp : null,
                 isArabic: isArabic,
                 cardNumber: state.cardNumber,
                 totalAttempts: state.totalAttempts,
@@ -115,10 +113,6 @@ class HeartCardScreen extends ConsumerWidget {
     );
   }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Card body
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _CardBody extends StatelessWidget {
   final String question;
@@ -145,15 +139,11 @@ class _CardBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final remaining = _kFreeCards - totalAttempts;
     return Padding(
-      padding:
-          const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
       child: Column(
         children: [
-          // Progress dots
           _ProgressDots(cardNumber: cardNumber),
           const SizedBox(height: 24),
-
-          // Main question card
           Expanded(
             child: Container(
               width: double.infinity,
@@ -176,7 +166,6 @@ class _CardBody extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Heart icon
                   Container(
                     width: 48,
                     height: 48,
@@ -188,8 +177,6 @@ class _CardBody extends StatelessWidget {
                         color: _accent, size: 24),
                   ),
                   const SizedBox(height: 28),
-
-                  // Question
                   Text(
                     question,
                     textAlign: TextAlign.center,
@@ -201,8 +188,6 @@ class _CardBody extends StatelessWidget {
                       height: 1.55,
                     ),
                   ),
-
-                  // Go Deeper follow-up
                   if (followUp != null) ...[
                     const SizedBox(height: 24),
                     Container(
@@ -218,9 +203,7 @@ class _CardBody extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            isArabic
-                                ? '🔍 أعمق...'
-                                : '🔍 Go Deeper...',
+                            isArabic ? '🔍 أعمق...' : '🔍 Go Deeper...',
                             style: appFont(
                               isArabic: isArabic,
                               fontSize: 12,
@@ -248,12 +231,8 @@ class _CardBody extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-
-          // Reaction row
           _ReactionRow(),
           const SizedBox(height: 20),
-
-          // Go Deeper button
           if (onGoDeeper != null)
             Padding(
               padding: const EdgeInsets.only(bottom: 12),
@@ -282,8 +261,6 @@ class _CardBody extends StatelessWidget {
                 ),
               ),
             ),
-
-          // Next Card button
           GestureDetector(
             onTap: onNext,
             child: Container(
@@ -301,7 +278,7 @@ class _CardBody extends StatelessWidget {
                 ],
               ),
               child: Text(
-                isArabic ? 'السؤال التالي →' : 'Next Card →',
+                isArabic ? 'السؤال التالي ←' : 'Next Card ←',
                 textAlign: TextAlign.center,
                 style: appFont(
                   isArabic: isArabic,
@@ -313,8 +290,6 @@ class _CardBody extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-
-          // Free cards remaining or skip
           if (remaining > 0 && remaining <= 3)
             Text(
               isArabic
@@ -344,8 +319,6 @@ class _CardBody extends StatelessWidget {
     );
   }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _ProgressDots extends StatelessWidget {
   final int cardNumber;
@@ -405,15 +378,12 @@ class _ReactionRowState extends State<_ReactionRow> {
                   : Colors.white.withValues(alpha: 0.07),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: selected
-                    ? _accent
-                    : Colors.transparent,
+                color: selected ? _accent : Colors.transparent,
               ),
             ),
             child: Text(
               _reactions[i],
-              style: TextStyle(
-                  fontSize: selected ? 22 : 20),
+              style: TextStyle(fontSize: selected ? 22 : 20),
             ),
           ),
         );

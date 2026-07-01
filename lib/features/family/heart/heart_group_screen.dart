@@ -34,14 +34,6 @@ class HeartGroupScreen extends ConsumerWidget {
       sub: 'Ages 13–17',
       subAr: 'عمر 13–17',
     ),
-    (
-      value: 'mixed',
-      emoji: '❤️',
-      label: 'Mixed Ages',
-      labelAr: 'أعمار مختلطة',
-      sub: 'All ages together',
-      subAr: 'كل الأعمار معاً',
-    ),
   ];
 
   @override
@@ -185,4 +177,3 @@ class _GroupCard extends StatelessWidget {
     );
   }
 }
-

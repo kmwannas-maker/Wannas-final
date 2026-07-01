@@ -129,7 +129,7 @@ class S {
   String get paywallFeature2 =>
       isArabic ? 'وضع "أضف التوابل" بالكامل' : 'Full access to Spice It Up';
   String get paywallFeature3 =>
-      isArabic ? 'جميع الفئات العمرية لوقت العائلة' : 'All Family Heart to Heart age groups';
+      isArabic ? 'جميع الفئات العمرية لوقت العائلة' : 'All Family Time age groups';
 
   // Settings
   String get settings       => isArabic ? 'الإعدادات'              : 'Settings';
